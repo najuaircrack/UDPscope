@@ -1,0 +1,81 @@
+name: udpscope
+version: "1.0.0"
+summary: Professional UDP traffic analysis and diagnostics tool
+description: |
+  UDPScope is a network observability and diagnostics tool for UDP traffic
+  analysis on Linux systems. It provides comprehensive monitoring, analysis,
+  and reporting capabilities for system administrators to diagnose UDP-based
+  applications and services.
+
+grade: stable
+confinement: classic
+base: core22
+
+architectures:
+  - build-on: amd64
+  - build-on: arm64
+  - build-on: armhf
+  - build-on: ppc64el
+  - build-on: s390x
+
+apps:
+  udpscope:
+    command: bin/udpscope
+    plugs:
+      - network
+      - network-bind
+      - network-control
+      - raw-data
+      - docker
+      - hardware-observe
+    environment:
+      PATH: $SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH
+      PYTHONPATH: $SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages
+
+parts:
+  udpscope:
+    plugin: python
+    source: .
+    python-version: python3
+    build-packages:
+      - gcc
+      - python3-dev
+      - libcap-dev
+    stage-packages:
+      - tcpdump
+      - iproute2
+      - net-tools
+      - python3-numpy
+    build-environment:
+      - PATH: /snap/bin:$PATH
+    override-build: |
+      set -eux
+      # Install Python dependencies
+      pip install --prefix=/usr numpy
+      pip install --prefix=/usr .
+      # Create wrapper script
+      mkdir -p $SNAPCRAFT_PART_INSTALL/bin
+      cat > $SNAPCRAFT_PART_INSTALL/bin/udpscope << 'EOF'
+      #!/bin/sh
+      exec $SNAP/usr/bin/python3 -m udpscope.cli "$@"
+      EOF
+      chmod +x $SNAPCRAFT_PART_INSTALL/bin/udpscope
+    prime:
+      - -usr/lib/python3.10/pycache
+      - -usr/lib/python3.10/*/pycache
+
+slots:
+  network-observe:
+    interface: network-observe
+  network-control:
+    interface: network-control
+  docker:
+    interface: docker
+
+layout:
+  /usr/bin/tcpdump:
+    bind-file: $SNAP/usr/bin/tcpdump
+  /usr/bin/ss:
+    bind-file: $SNAP/usr/bin/ss
+  /usr/bin/ip:
+    bind-file: $SNAP/usr/bin/ip

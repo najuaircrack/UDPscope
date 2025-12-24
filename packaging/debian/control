@@ -1,0 +1,36 @@
+Source: udpscope
+Section: net
+Priority: optional
+Maintainer: UDPScope Maintainers <kcnajwan7@Gmail.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ dh-python,
+ python3-all,
+ python3-setuptools
+Standards-Version: 4.6.2
+Homepage: https://github.com/najuaircrack/UDPscope
+Vcs-Browser: https://github.com/najuaircrack/UDPscope
+Vcs-Git: https://github.com/najuaircrack/UDPscope.git
+
+Package: udpscope
+Architecture: all
+Depends:
+ ${python3:Depends},
+ ${misc:Depends},
+ python3-numpy,
+ tcpdump | tshark,
+ iproute2,
+ docker.io (optional),
+ net-tools (optional)
+Description: Professional UDP traffic analysis and diagnostics tool
+ UDPScope is a network observability and diagnostics tool for UDP traffic
+ analysis on Linux systems. It provides comprehensive monitoring, analysis,
+ and reporting capabilities for system administrators to diagnose UDP-based
+ applications and services.
+ .
+ Features include:
+  - Multi-method capture (tcpdump, tshark, Docker introspection, ss)
+  - Comprehensive traffic analysis and statistics
+  - Network diagnostics and troubleshooting
+  - Threat assessment and anomaly detection
+  - Clean, enterprise-safe implementation
