@@ -1,11 +1,17 @@
 name: udpscope
-version: "1.0.0"
+version: '1.0.1'
 summary: Professional UDP traffic analysis and diagnostics tool
 description: |
   UDPScope is a network observability and diagnostics tool for UDP traffic
   analysis on Linux systems. It provides comprehensive monitoring, analysis,
   and reporting capabilities for system administrators to diagnose UDP-based
   applications and services.
+
+  Features:
+    * Multi-method capture (tcpdump, tshark, Docker introspection, ss)
+    * Comprehensive traffic analysis and statistics
+    * Network diagnostics and troubleshooting
+    * Threat assessment and anomaly detection
 
 grade: stable
 confinement: classic
@@ -28,9 +34,11 @@ apps:
       - raw-data
       - docker
       - hardware-observe
+      - network-observe
     environment:
       PATH: $SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH
-      PYTHONPATH: $SNAP/lib/python3.10/site-packages:$SNAP/usr/lib/python3/dist-packages
+      PYTHONPATH: $SNAP/usr/lib/python3.10/site-packages:$SNAP/lib/python3.10/site-packages
+    completer: completions/udpscope
 
 parts:
   udpscope:
@@ -46,8 +54,6 @@ parts:
       - iproute2
       - net-tools
       - python3-numpy
-    build-environment:
-      - PATH: /snap/bin:$PATH
     override-build: |
       set -eux
       # Install Python dependencies
@@ -57,12 +63,33 @@ parts:
       mkdir -p $SNAPCRAFT_PART_INSTALL/bin
       cat > $SNAPCRAFT_PART_INSTALL/bin/udpscope << 'EOF'
       #!/bin/sh
+      export PATH=$SNAP/usr/sbin:$SNAP/usr/bin:$SNAP/sbin:$SNAP/bin:$PATH
+      export PYTHONPATH=$SNAP/usr/lib/python3.10/site-packages:$SNAP/lib/python3.10/site-packages
       exec $SNAP/usr/bin/python3 -m udpscope.cli "$@"
       EOF
       chmod +x $SNAPCRAFT_PART_INSTALL/bin/udpscope
+      # Create completions directory
+      mkdir -p $SNAPCRAFT_PART_INSTALL/completions
+      # Generate bash completion
+      cat > $SNAPCRAFT_PART_INSTALL/completions/udpscope << 'EOF'
+      #!/bin/bash
+      _udpscope_completion() {
+          local cur prev opts
+          COMPREPLY=()
+          cur="${COMP_WORDS[COMP_CWORD]}"
+          prev="${COMP_WORDS[COMP_CWORD-1]}"
+          opts="--port --duration --interface --json --help"
+          
+          if [[ ${cur} == -* ]] ; then
+              COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+              return 0
+          fi
+      }
+      complete -F _udpscope_completion udpscope
+      EOF
     prime:
-      - -usr/lib/python3.10/pycache
-      - -usr/lib/python3.10/*/pycache
+      - -usr/lib/python3.10/__pycache__
+      - -usr/lib/python3.10/*/__pycache__
 
 slots:
   network-observe:
@@ -79,3 +106,5 @@ layout:
     bind-file: $SNAP/usr/bin/ss
   /usr/bin/ip:
     bind-file: $SNAP/usr/bin/ip
+  /usr/bin/python3:
+    bind-file: $SNAP/usr/bin/python3

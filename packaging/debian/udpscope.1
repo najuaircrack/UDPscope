@@ -1,0 +1,56 @@
+.TH UDPSCOPE 1 "2024" "udpscope 1.0.1" "UDP Traffic Analyzer"
+.SH NAME
+udpscope \- Professional UDP traffic analysis and diagnostics tool
+.SH SYNOPSIS
+.B udpscope
+[\fIOPTIONS\fR]
+.SH DESCRIPTION
+UDPScope is a network observability and diagnostics tool for UDP traffic
+analysis on Linux systems. It provides comprehensive monitoring, analysis,
+and reporting capabilities for system administrators to diagnose UDP-based
+applications and services.
+.SH OPTIONS
+.TP
+\fB\-\-port\fR PORT
+UDP port to monitor (required)
+.TP
+\fB\-\-duration\fR SECONDS
+Capture duration in seconds (default: 30)
+.TP
+\fB\-\-interface\fR IFACE
+Network interface to monitor (default: any)
+.TP
+\fB\-\-json\fR
+Output report in JSON format
+.TP
+\fB\-h, \-\-help\fR
+Show this help message and exit
+.SH EXAMPLES
+.TP
+.B sudo udpscope \-\-port 2456 \-\-duration 60 \-\-interface any
+Monitor port 2456 for 60 seconds on all interfaces
+.TP
+.B sudo udpscope \-\-port 53 \-\-duration 30 \-\-interface eth0
+Monitor DNS traffic on eth0 for 30 seconds
+.TP
+.B sudo udpscope \-\-port 51820 \-\-duration 10
+Quick 10-second capture on port 51820
+.SH REQUIREMENTS
+Requires tcpdump and iproute2 for basic functionality.
+For full features, install tshark and docker.io.
+.SH FILES
+.TP
+.I /usr/bin/udpscope
+Main executable
+.TP
+.I /usr/lib/python3/dist-packages/udpscope/
+Python module
+.SH SEE ALSO
+.BR tcpdump (1),
+.BR tshark (1),
+.BR ss (8),
+.BR docker (1)
+.SH AUTHOR
+UDPscope Maintainers <kcnajwan7@gmail.com>
+.SH BUGS
+Report bugs at https://github.com/najuaircrack/UDPscope/issues

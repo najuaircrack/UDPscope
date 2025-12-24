@@ -1,20 +1,21 @@
 #!/usr/bin/make -f
-
-#See debhelper(7) (uncomment to enable)
+# See debhelper(7) (uncomment to enable)
 export PYBUILD_NAME=udpscope
 
 %:
-dh $@ --with python3 --buildsystem=pybuild
+	dh $@ --with python3 --buildsystem=pybuild
 
 override_dh_auto_install:
-dh_auto_install
-# Install the CLI script
-install -D -m 0755 debian/udpscope-wrapper $(DESTDIR)/usr/bin/udpscope
+	dh_auto_install
+	# Create man page directory
+	install -d $(DESTDIR)/usr/share/man/man1/
+	# Install man page if it exists
+	-[ -f debian/udpscope.1 ] && install -m 0644 debian/udpscope.1 $(DESTDIR)/usr/share/man/man1/
 
 override_dh_python3:
-dh_python3
+	dh_python3
 
 override_dh_install:
-dh_install
+	dh_install
 
 .PHONY: override_dh_auto_install override_dh_python3 override_dh_install

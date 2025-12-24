@@ -1,0 +1,8 @@
+udpscope (1.0.1-1) unstable; urgency=medium
+
+  * Initial Debian package release
+  * Professional UDP traffic analysis tool
+  * Multi-method packet capture support
+  * Comprehensive network diagnostics
+
+ -- UDPscope Maintainers <kcnajwan7@gmail.com>  $(date -R)

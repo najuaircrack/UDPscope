@@ -1,22 +1,26 @@
 #!/bin/sh
-
 # postinst script for udpscope
+
 set -e
 
 case "$1" in
     configure)
         # Check for recommended dependencies
-        if ! command -v tcpdump >/dev/null 2>&1 && ! command -v tshark >/dev/null 2>&1; then
-            echo "Warning: Neither tcpdump nor tshark found. Packet capture may not work."
-            echo "Install one of: tcpdump, tshark"
+        if ! command -v tcpdump >/dev/null 2>&1; then
+            echo "Warning: tcpdump not found. Packet capture may not work."
+            echo "Install: sudo apt install tcpdump"
         fi
-
+        
         if ! command -v ss >/dev/null 2>&1; then
             echo "Warning: ss (iproute2) not found. Socket statistics may not work."
+            echo "Install: sudo apt install iproute2"
         fi
-
-        echo "UDPscope installed successfully."
+        
+        echo "UDPScope installed successfully."
         echo "Run 'sudo udpscope --help' for usage information."
+        echo ""
+        echo "For full functionality, consider installing:"
+        echo "  sudo apt install tshark docker.io"
         ;;
         
     abort-upgrade|abort-remove|abort-deconfigure)
