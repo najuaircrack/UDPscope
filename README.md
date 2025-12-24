@@ -1,11 +1,11 @@
 
 # UDPScope
-- UDPScope is a professional network observability and diagnostics tool for UDP traffic analysis on Linux systems. It provides comprehensive monitoring, analysis, and reporting capabilities for system administrators to diagnose UDP-based applications and services.
+- UDPScope is a professional network observability and diagnostics tool for UDP traffic analysis on Linux systems. It provides comprehensive monitoring, analysis, and reporting capabilities for system administrators to diagnose UDP based applications and services.
 
 ---
 
 ## Features
-- Multi-method capture: Uses tcpdump, tshark, Docker container introspection, and ss (socket statistics)
+- Multi method capture: Uses tcpdump, tshark, Docker container introspection, and ss (socket statistics)
 - Comprehensive analysis: Packet statistics, IP analysis, temporal patterns, and threat assessment
 - Network diagnostics: Automatic diagnostics when no traffic is detected
 - Multiple output formats: Clear console reporting with structured data
