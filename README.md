@@ -25,15 +25,6 @@
 pip install udpscope
 ```
 
-### From Debian / APT
-```bash
-sudo apt install udpscope
-```
-
-### From Snap
-```bash
-sudo snap install udpscope
-```
 
 ### From Source
 ```bash
