@@ -1,23 +1,18 @@
 ===== README.md =====
 
-#UDPScope
+# UDPScope
 - UDPScope is a professional network observability and diagnostics tool for UDP traffic analysis on Linux systems. It provides comprehensive monitoring, analysis, and reporting capabilities for system administrators to diagnose UDP-based applications and services.
 
-#Features
+# Features
 - Multi-method capture: Uses tcpdump, tshark, Docker container introspection, and ss (socket statistics)
+- Comprehensive analysis: Packet statistics, IP analysis, temporal patterns, and threat assessment
+- Network diagnostics: Automatic diagnostics when no traffic is detected
+- Multiple output formats: Clear console reporting with structured data
+- Enterprise safe: Designed for legitimate system administration and troubleshooting
 
-Comprehensive analysis: Packet statistics, IP analysis, temporal patterns, and threat assessment
-
-Network diagnostics: Automatic diagnostics when no traffic is detected
-
-Multiple output formats: Clear console reporting with structured data
-
-Enterprise-safe: Designed for legitimate system administration and troubleshooting
-
-Installation
-From PyPI
-bash
-pip install udpscope
+# Installation
+**From PyPI**
+```bash pip install udpscope```
 From Debian/APT
 bash
 sudo apt install udpscope
